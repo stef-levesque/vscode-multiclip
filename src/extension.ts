@@ -6,13 +6,9 @@ import Range = vscode.Range;
 
 export function activate(context: vscode.ExtensionContext) {
 
-	let bufSize = 5;
-	let defaultValue = " nothing in buffer yet ";
+	let bufSize = 10;
 	var copyBuffer = new Array;
-	
-	var _channel = Window.createOutputChannel('Multiclip Log');
-	_channel.appendLine("Multiclip Log Output");
-	
+		
 	var disposables = [];
 	disposables.push( vscode.commands.registerCommand('multiclip.copy', () => {
 		let e = Window.activeTextEditor;

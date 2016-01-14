@@ -52,15 +52,18 @@
 		"keybindings": [
 			{
 				"key": "cmd+c",
-				"command": "multiclip.copy"
+				"command": "multiclip.copy",
+				"when": "editorTextFocus"
 			},
 			{
 				"key": "cmd+x",
-				"command": "multiclip.cut"
+				"command": "multiclip.cut",
+				"when": "editorTextFocus"
 			},
 			{
 				"key": "alt+cmd+v",
-				"command": "multiclip.paste"
+				"command": "multiclip.paste",
+				"when": "editorTextFocus"
 			}
 		]
 	},
