@@ -2,7 +2,7 @@
 	"name": "vscode-multiclip",
 	"displayName": "Multiple clipboards for VSCode",
 	"description": "Override the regular Copy and Cut commands to keep selections in a clipboard ring",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"publisher": "slevesque",
 	"license": "LICENSE.md",
 	"icon": "icon.png",
@@ -51,17 +51,20 @@
 		],
 		"keybindings": [
 			{
-				"key": "cmd+c",
+				"key": "ctrl+c",
+				"mac": "cmd+c",
 				"command": "multiclip.copy",
 				"when": "editorTextFocus"
 			},
 			{
-				"key": "cmd+x",
+				"key": "ctrl+x",
+				"mac": "cmd+x",
 				"command": "multiclip.cut",
 				"when": "editorTextFocus"
 			},
 			{
-				"key": "alt+cmd+v",
+				"key": "alt+ctrl+v",
+				"mac": "alt+cmd+v",
 				"command": "multiclip.paste",
 				"when": "editorTextFocus"
 			}
