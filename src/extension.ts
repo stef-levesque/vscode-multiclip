@@ -40,21 +40,6 @@ export function activate(context: vscode.ExtensionContext) {
 		
 		vscode.commands.executeCommand("editor.action.clipboardCutAction");
 	}));
-	disposables.push( vscode.commands.registerCommand('multiclip.list', () => {
-		_channel.show();
-		if (copyBuffer.length ==0) {
-			_channel.appendLine("buffer is empty")
-			return;
-		}
-		for (var i=0; i<copyBuffer.length; i++){
-			_channel.appendLine("Entry #" + (i+1));
-			_channel.appendLine("--------------------------------------");
-			_channel.append(copyBuffer[i]);
-			_channel.appendLine("");
-			_channel.appendLine("--------------------------------------");
-		}
-		
-	}));
 	disposables.push( vscode.commands.registerCommand('multiclip.paste', () => {
 		var opts: QuickPickOptions = { matchOnDescription: true, placeHolder: "What to paste" };
 		var items: QuickPickItem[] = [];
