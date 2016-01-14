@@ -1,0 +1,75 @@
+{
+	"name": "vscode-multiclip",
+	"displayName": "Multiple clipboards for VSCode",
+	"description": "Override the regular Copy and Cut commands to keep selections in a clipboard ring",
+	"version": "0.0.1",
+	"publisher": "slevesque",
+	"license": "LICENSE.md",
+	"icon": "icon.png",
+		"bugs": {
+		"url": "https://github.com/stef-levesque/vscode-multiclip/issues"
+	},
+	"homepage": "https://github.com/stef-levesque/vscode-multiclip/blob/master/README.md",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/stef-levesque/vscode-multiclip.git"
+	},
+	"galleryBanner": {
+		"color": "#5c2d91",
+		"theme": "dark"
+	},
+	"engines": {
+		"vscode": "^0.10.1"
+	},
+	"categories": [
+		"Other"
+	],
+	"keywords": [
+		"vscode",
+		"copy",
+		"multiple",
+		"clipboard"
+	],
+	"activationEvents": [
+		"*"
+	],
+	"main": "./out/src/extension",
+	"contributes": {
+		"commands": [
+			{
+				"command": "multiclip.copy",
+				"title": "Multiclip Copy"
+			},
+			{
+				"command": "multiclip.cut",
+				"title": "Multiclip Cut"
+			},
+			{
+				"command": "multiclip.paste",
+				"title": "Multiclip Paste"
+			}
+		],
+		"keybindings": [
+			{
+				"key": "cmd+c",
+				"command": "multiclip.copy"
+			},
+			{
+				"key": "cmd+x",
+				"command": "multiclip.cut"
+			},
+			{
+				"key": "alt+cmd+v",
+				"command": "multiclip.paste"
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "node ./node_modules/vscode/bin/compile",
+		"compile": "node ./node_modules/vscode/bin/compile -watch -p ./"
+	},
+	"devDependencies": {
+		"typescript": "^1.6.2",
+		"vscode": "0.10.x"
+	}
+}
