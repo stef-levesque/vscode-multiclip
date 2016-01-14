@@ -46,7 +46,7 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 		
 		for (var i=0; i<copyBuffer.length; i++){
-			items.push({ label: i.toString(), description: copyBuffer[i]});
+			items.push({ label: (i+1).toString(), description: copyBuffer[i]});
 		};
 		
 		Window.showQuickPick(items).then( (item) => {
