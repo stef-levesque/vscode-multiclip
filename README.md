@@ -44,3 +44,28 @@ Visual Studio Code v0.10.x (November 2015)
 ## License
 
 [MIT](LICENSE.md)
+
+---
+
+## Change log
+
+### [0.0.3] - 2016-01-19
+
+#### Changes
+
+* Don't add same text or empty text to buffer (thanks @windwp)
+
+### [0.0.2] - 2016-01-14
+
+#### Fix
+
+* Fix keybindings for Windows and Linux
+
+### 0.0.1 - 2016-01-13
+
+#### New
+
+* Override the regular Copy and Cut commands to keep selections in a clipboard ring
+
+[0.0.3]: https://github.com/stef-levesque/vscode-multiclip/compare/9d87335cf1c079a86bd21c53f33c9573afe6fb4a...7f174cbf6cf9540e846059f576fc4daad1a87136
+[0.0.2]: https://github.com/stef-levesque/vscode-multiclip/compare/f5499ab2e7d1175f2ded691fe98fe3fc4e34704e...9d87335cf1c079a86bd21c53f33c9573afe6fb4a

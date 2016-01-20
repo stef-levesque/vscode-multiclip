@@ -16,12 +16,12 @@ export function activate(context: vscode.ExtensionContext) {
 		let sel = e.selection;
 		
 		let txt: string = d.getText(new Range(sel.start, sel.end));
-        if (txt.trim().length > 0 && !copyBuffer.find(value=> value === txt)) {
-            copyBuffer.unshift(txt);
-            if (copyBuffer.length > bufSize){
-                copyBuffer = copyBuffer.slice(0, bufSize);
-            }
-        }
+		if (txt.trim().length > 0 && !copyBuffer.find(value=> value === txt)) {
+			copyBuffer.unshift(txt);
+			if (copyBuffer.length > bufSize){
+				copyBuffer = copyBuffer.slice(0, bufSize);
+			}
+		}
 		vscode.commands.executeCommand("editor.action.clipboardCopyAction");
 	}));
 	disposables.push( vscode.commands.registerCommand('multiclip.cut', () => {
@@ -31,11 +31,11 @@ export function activate(context: vscode.ExtensionContext) {
 		
 		let txt: string = d.getText(new Range(sel.start, sel.end));
 		if (txt.trim().length > 0 && !copyBuffer.find(value=> value === txt)) {
-            copyBuffer.unshift(txt);
-            if (copyBuffer.length > bufSize){
-                copyBuffer = copyBuffer.slice(0, bufSize);
-            }
-        }
+			copyBuffer.unshift(txt);
+			if (copyBuffer.length > bufSize){
+				copyBuffer = copyBuffer.slice(0, bufSize);
+			}
+		}
 		
 		vscode.commands.executeCommand("editor.action.clipboardCutAction");
 	}));
