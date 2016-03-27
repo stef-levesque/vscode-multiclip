@@ -8,7 +8,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 	let bufSize = 10;
 	var copyBuffer = new Array;
-		
+	var pasteIndex = 0;
+	
 	var disposables = [];
 	disposables.push( vscode.commands.registerCommand('multiclip.clearBuffer', () => {
 		copyBuffer = new Array;
@@ -26,6 +27,7 @@ export function activate(context: vscode.ExtensionContext) {
 				copyBuffer = copyBuffer.slice(0, bufSize);
 			}
 		}
+		pasteIndex = 0;
 		vscode.commands.executeCommand("editor.action.clipboardCopyAction");
 	}));
 	disposables.push( vscode.commands.registerCommand('multiclip.cut', () => {
@@ -40,17 +42,42 @@ export function activate(context: vscode.ExtensionContext) {
 				copyBuffer = copyBuffer.slice(0, bufSize);
 			}
 		}
-		
+		pasteIndex = 0;
 		vscode.commands.executeCommand("editor.action.clipboardCutAction");
 	}));
 	disposables.push( vscode.commands.registerCommand('multiclip.paste', () => {
+		if (copyBuffer.length == 0) {
+			Window.setStatusBarMessage("Multiclip: Nothing to paste", 3000);
+			return;
+		}
+	
+		let e = Window.activeTextEditor;
+		let d = e.document;
+		
+		let txt: string = d.getText(new Range(e.selection.start, e.selection.end));
+		if (txt === copyBuffer[pasteIndex]) {
+			pasteIndex = ++pasteIndex < copyBuffer.length ? pasteIndex : 0;
+		}
+		
+		let sel = e.selections;
+		e.edit( function(edit) {
+			e.selections.forEach(sel => {
+				let txt = copyBuffer[pasteIndex];
+				edit.replace(sel, txt);
+				//TODO: Put selection in clipboard
+			});
+		});
+		
+	}));
+	disposables.push( vscode.commands.registerCommand('multiclip.list', () => {
+		if (copyBuffer.length == 0) {
+			Window.setStatusBarMessage("Multiclip: Nothing to paste", 3000);
+			return;
+		}
+		
 		var opts: QuickPickOptions = { matchOnDescription: true, placeHolder: "What to paste" };
 		var items: QuickPickItem[] = [];
 		
-		if (copyBuffer.length == 0) {
-			Window.showInformationMessage("nothing to paste");
-			return;
-		}
 		
 		for (var i=0; i<copyBuffer.length; i++){
 			items.push({ label: (i+1).toString(), description: copyBuffer[i]});
