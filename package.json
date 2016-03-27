@@ -47,6 +47,10 @@
 			{
 				"command": "multiclip.paste",
 				"title": "Multiclip Paste"
+			},
+			{
+				"command": "multiclip.clearBuffer",
+				"title": "Clear Multiclip Buffer"
 			}
 		],
 		"keybindings": [

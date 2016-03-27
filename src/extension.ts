@@ -10,6 +10,10 @@ export function activate(context: vscode.ExtensionContext) {
 	var copyBuffer = new Array;
 		
 	var disposables = [];
+	disposables.push( vscode.commands.registerCommand('multiclip.clearBuffer', () => {
+		copyBuffer = new Array;
+		pasteIndex = 0;
+	}));
 	disposables.push( vscode.commands.registerCommand('multiclip.copy', () => {
 		let e = Window.activeTextEditor;
 		let d = e.document;
