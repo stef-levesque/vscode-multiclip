@@ -9,7 +9,7 @@ export function activate(context: vscode.ExtensionContext) {
 	let bufSize = 10;
 	var copyBuffer = new Array;
 	var pasteIndex = 0;
-	
+
 	var disposables = [];
 	disposables.push( vscode.commands.registerCommand('multiclip.clearBuffer', () => {
 		copyBuffer = new Array;
@@ -19,7 +19,7 @@ export function activate(context: vscode.ExtensionContext) {
 		let e = Window.activeTextEditor;
 		let d = e.document;
 		let sel = e.selection;
-		
+
 		let txt: string = d.getText(new Range(sel.start, sel.end));
 		if (txt.trim().length > 0 && !copyBuffer.find(value=> value === txt)) {
 			copyBuffer.unshift(txt);
@@ -34,7 +34,7 @@ export function activate(context: vscode.ExtensionContext) {
 		let e = Window.activeTextEditor;
 		let d = e.document;
 		let sel = e.selection;
-		
+
 		let txt: string = d.getText(new Range(sel.start, sel.end));
 		if (txt.trim().length > 0 && !copyBuffer.find(value=> value === txt)) {
 			copyBuffer.unshift(txt);
@@ -45,64 +45,70 @@ export function activate(context: vscode.ExtensionContext) {
 		pasteIndex = 0;
 		vscode.commands.executeCommand("editor.action.clipboardCutAction");
 	}));
+	function doPaste(txt: string) {
+		const e = Window.activeTextEditor;
+		const d = e.document;
+		e.edit( function(edit:vscode.TextEditorEdit) {
+			e.selections.forEach(sel => {
+				edit.replace(sel, txt);
+			});
+		});
+
+		// Grab a copy of the current selection array
+		const tmpSelections = e.selections;
+
+		// Grab the current primary selection
+		const sel = tmpSelections[ 0 ];
+
+		// Change the current selection array to contain a single item
+		// that encompasses the entire pasted block.
+		e.selections = [ new vscode.Selection(sel.start, d.positionAt(d.offsetAt(sel.start) + txt.length)) ];
+		// Send the pasted value to the system clipboard.
+		vscode.commands.executeCommand("editor.action.clipboardCopyAction")
+			.then(() => {
+				// Restore the previous selection(s)
+				e.selections = tmpSelections;
+			});
+	}
 	disposables.push( vscode.commands.registerCommand('multiclip.paste', () => {
 		if (copyBuffer.length == 0) {
 			Window.setStatusBarMessage("Multiclip: Nothing to paste", 3000);
 			return;
 		}
-	
+
 		let e = Window.activeTextEditor;
 		let d = e.document;
-		
+
 		let txt: string = d.getText(new Range(e.selection.start, e.selection.end));
 		if (txt === copyBuffer[pasteIndex]) {
 			pasteIndex = ++pasteIndex < copyBuffer.length ? pasteIndex : 0;
 		}
-		
-		let sel = e.selections;
-		e.edit( function(edit) {
-			e.selections.forEach(sel => {
-				let txt = copyBuffer[pasteIndex];
-				edit.replace(sel, txt);
-				//TODO: Put selection in clipboard
-			});
-		});
-		
+
+		doPaste(copyBuffer[ pasteIndex ]);
 	}));
 	disposables.push( vscode.commands.registerCommand('multiclip.list', () => {
 		if (copyBuffer.length == 0) {
 			Window.setStatusBarMessage("Multiclip: Nothing to paste", 3000);
 			return;
 		}
-		
+
 		var opts: QuickPickOptions = { matchOnDescription: true, placeHolder: "What to paste" };
 		var items: QuickPickItem[] = [];
-		
-		
+
+
 		for (var i=0; i<copyBuffer.length; i++){
 			items.push({ label: (i+1).toString(), description: copyBuffer[i]});
 		};
-		
+
 		Window.showQuickPick(items).then( (item) => {
 			if (!item) {
 				return;
 			}
-			let e = Window.activeTextEditor;
-			let d = e.document;
-			let sel = e.selections;
-			
-			e.edit( function(edit) {
-				e.selections.forEach(sel => {
-					let txt = item.description;
-					edit.replace(sel, txt);
-					//TODO: Put selection in clipboard
-				});
-			});
-			
+			doPaste(item.description);
 		})
 
 	}));
-	
+
 	context.subscriptions.concat(disposables);
 }
 
