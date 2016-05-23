@@ -10,10 +10,23 @@ export function activate(context: vscode.ExtensionContext) {
 	var copyBuffer = new Array;
 	var pasteIndex = 0;
 
-	function newCopyBuf(e,merge:boolean=false) : string {
-		let d = e.document;
+	function newCopyBuf(e:vscode.TextEditor,merge:boolean=false) : string {
+		let d:vscode.TextDocument = e.document;
 		let sel = e.selection;
 		let txt: string = d.getText(new Range(sel.start, sel.end));
+
+		// A copy of a zero length line means copy the whole line.
+		if (txt.length === 0) {
+			let eol;
+			try {
+				const files = vscode.workspace.getConfiguration("files");
+				eol = files.get("eol","\n");
+			} catch (e) {
+				eol = "\n";
+			}
+			txt = d.lineAt(sel.start.line).text + eol ;
+		}
+
 		if (merge) {
 			if (copyBuffer.length===0) {
 				copyBuffer.push("");
