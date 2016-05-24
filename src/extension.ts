@@ -48,27 +48,28 @@ export function activate(context: vscode.ExtensionContext) {
 	function doPaste(txt: string) {
 		const e = Window.activeTextEditor;
 		const d = e.document;
-		e.edit( function(edit:vscode.TextEditorEdit) {
+		e.edit(function (edit: vscode.TextEditorEdit) {
 			e.selections.forEach(sel => {
 				edit.replace(sel, txt);
 			});
+		}).then(() => {
+			// Grab a copy of the current selection array
+			const tmpSelections = e.selections;
+
+			// Grab the current primary selection
+			const sel = tmpSelections[ 0 ];
+
+			// Change the current selection array to contain a single item
+			// that encompasses the entire pasted block.
+			e.selections = [ sel ];
+
+			// Send the pasted value to the system clipboard.
+			vscode.commands.executeCommand("editor.action.clipboardCopyAction")
+				.then(() => {
+					// Restore the previous selection(s)
+					e.selections = tmpSelections;
+				});
 		});
-
-		// Grab a copy of the current selection array
-		const tmpSelections = e.selections;
-
-		// Grab the current primary selection
-		const sel = tmpSelections[ 0 ];
-
-		// Change the current selection array to contain a single item
-		// that encompasses the entire pasted block.
-		e.selections = [ new vscode.Selection(sel.start, d.positionAt(d.offsetAt(sel.start) + txt.length)) ];
-		// Send the pasted value to the system clipboard.
-		vscode.commands.executeCommand("editor.action.clipboardCopyAction")
-			.then(() => {
-				// Restore the previous selection(s)
-				e.selections = tmpSelections;
-			});
 	}
 	disposables.push( vscode.commands.registerCommand('multiclip.paste', () => {
 		if (copyBuffer.length == 0) {
