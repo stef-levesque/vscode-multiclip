@@ -51,6 +51,14 @@
 			{
 				"command": "multiclip.clearBuffer",
 				"title": "Clear Multiclip Buffer"
+			},
+			{
+				"command": "multiclip.copyMerge",
+				"title" : "Multiclip Copy and Merge to Clipboard"
+			},
+			{
+				"command": "multiclip.cutMerge",
+				"title" : "Multiclip Cut and Merge to Clipboard"
 			}
 		],
 		"keybindings": [
@@ -77,6 +85,18 @@
 				"mac": "shift+cmd+v",
 				"command": "multiclip.paste",
 				"when": "editorTextFocus && editorLangId != 'markdown'"
+			},
+			{
+				"key": "shift+ctrl+c",
+				"mac": "shift+cmd+c",
+				"command": "multiclip.copyMerge",
+				"when": "editorTextFocus"
+			},
+			{
+				"key": "shift+ctrl+x",
+				"mac": "shift+cmd+x",
+				"command": "multiclip.cutMerge",
+				"when": "editorTextFocus"
 			}
 		]
 	},
