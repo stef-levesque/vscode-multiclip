@@ -35,6 +35,18 @@
 	],
 	"main": "./out/src/extension",
 	"contributes": {
+		"configuration": {
+			"type": "object",
+			"title": "VS Code Multiclip Configuration",
+			"properties": {
+				"multiclip.bufferSize": {
+					"type": "integer",
+					"minimum": 1,
+					"default": 10,
+					"description": "Maximum number of item to keep in the multiclip buffer"
+				}
+			}
+		},
 		"commands": [
 			{
 				"command": "multiclip.copy",

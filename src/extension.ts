@@ -6,7 +6,7 @@ import Range = vscode.Range;
 
 export function activate(context: vscode.ExtensionContext) {
 
-	let bufSize = 10;
+	let bufSize = vscode.workspace.getConfiguration('multiclip').get('bufferSize', 10);
 	var copyBuffer = new Array;
 	var pasteIndex = 0;
 
