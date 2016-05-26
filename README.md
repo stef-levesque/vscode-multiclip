@@ -19,6 +19,10 @@ ability to copy several blocks of text into a single copy buffer.
 * Select clipboard to paste  (`Cmd+Alt+v` on OSX or `Ctrl+Alt+v` on Windows and Linux)
 * Paste and cycle through clipboard items (`Cmd+Shift+v` on OSX or `Ctrl+Shift+v` on Windows and Linux)
 
+## Configuration
+
+* `multiclip.bufferSize` Maximum number of item to keep in the multiclip buffer
+
 ## Installation
 
 1. Install *Visual Studio Code* (0.10.1 or higher)
@@ -52,6 +56,14 @@ Visual Studio Code v0.10.x (November 2015)
 ---
 
 ## Change log
+
+### [0.1.0] - 2016-05-25
+
+#### New
+
+* Add command to Merge-Copy in the same item (thanks @TimMensch)
+* Add current paste to system clipboard (again @TimMensch)
+* Configure the maximum number of item to keep in the multiclip buffer
 
 ### [0.0.4] - 2016-03-27
 
