@@ -65,6 +65,32 @@ export function activate(context: vscode.ExtensionContext) {
 		newCopyBuf(Window.activeTextEditor);
 		vscode.commands.executeCommand("editor.action.clipboardCutAction");
 	}));
+	function doPaste(txt: string) {
+		const e = Window.activeTextEditor;
+		const d = e.document;
+		e.edit(function (edit: vscode.TextEditorEdit) {
+			e.selections.forEach(sel => {
+				edit.replace(sel, txt);
+			});
+		}).then(() => {
+			// Grab a copy of the current selection array
+			const tmpSelections = e.selections;
+
+			// Grab the current primary selection
+			const sel = tmpSelections[ 0 ];
+
+			// Change the current selection array to contain a single item
+			// that encompasses the entire pasted block.
+			e.selections = [ sel ];
+
+			// Send the pasted value to the system clipboard.
+			vscode.commands.executeCommand("editor.action.clipboardCopyAction")
+				.then(() => {
+					// Restore the previous selection(s)
+					e.selections = tmpSelections;
+				});
+		});
+	}
 	disposables.push( vscode.commands.registerCommand('multiclip.paste', () => {
 		if (copyBuffer.length == 0) {
 			Window.setStatusBarMessage("Multiclip: Nothing to paste", 3000);
@@ -79,15 +105,7 @@ export function activate(context: vscode.ExtensionContext) {
 			pasteIndex = ++pasteIndex < copyBuffer.length ? pasteIndex : 0;
 		}
 
-		let sel = e.selections;
-		e.edit( function(edit) {
-			e.selections.forEach(sel => {
-				let txt = copyBuffer[pasteIndex];
-				edit.replace(sel, txt);
-				//TODO: Put selection in clipboard
-			});
-		});
-
+		doPaste(copyBuffer[ pasteIndex ]);
 	}));
 	disposables.push( vscode.commands.registerCommand('multiclip.list', () => {
 		if (copyBuffer.length == 0) {
@@ -107,18 +125,8 @@ export function activate(context: vscode.ExtensionContext) {
 			if (!item) {
 				return;
 			}
-			let e = Window.activeTextEditor;
-			let d = e.document;
-			let sel = e.selections;
-
-			e.edit( function(edit) {
-				e.selections.forEach(sel => {
-					let txt = item.description;
-					edit.replace(sel, txt);
-					//TODO: Put selection in clipboard
-				});
-			});
-
+			
+			doPaste(item.description);
 		})
 
 	}));
