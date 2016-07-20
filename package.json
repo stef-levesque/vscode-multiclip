@@ -44,6 +44,11 @@
 					"minimum": 1,
 					"default": 10,
 					"description": "Maximum number of item to keep in the multiclip buffer"
+				},
+				"multiclip.formatAfterPaste": {
+					"type": "boolean",
+					"default": true,
+					"description": "Specify if text should be formatted after pasting"
 				}
 			}
 		},
@@ -59,6 +64,10 @@
 			{
 				"command": "multiclip.paste",
 				"title": "Multiclip Paste"
+			},
+			{
+				"command": "multiclip.regularPaste",
+				"title": "Multiclip Regular Paste"
 			},
 			{
 				"command": "multiclip.clearBuffer",
@@ -97,6 +106,12 @@
 				"mac": "shift+cmd+v",
 				"command": "multiclip.paste",
 				"when": "editorTextFocus && editorLangId != 'markdown'"
+			},
+			{
+				"key": "ctrl+v",
+				"mac": "cmd+v",
+				"command": "multiclip.regularPaste",
+				"when": "editorTextFocus"
 			},
 			{
 				"key": "shift+ctrl+c",

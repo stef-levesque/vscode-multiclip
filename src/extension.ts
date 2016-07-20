@@ -6,7 +6,9 @@ import Range = vscode.Range;
 
 export function activate(context: vscode.ExtensionContext) {
 
-	let bufSize = vscode.workspace.getConfiguration('multiclip').get('bufferSize', 10);
+	let config = vscode.workspace.getConfiguration('multiclip')
+	let formatAfterPaste = config.get('formatAfterPaste', true);
+	let bufSize = config.get('bufferSize', 10);
 	var copyBuffer = new Array;
 	var pasteIndex = 0;
 
@@ -83,6 +85,11 @@ export function activate(context: vscode.ExtensionContext) {
 			// that encompasses the entire pasted block.
 			e.selections = [ sel ];
 
+			// Format the selection, if enabled
+			if (formatAfterPaste) {
+				vscode.commands.executeCommand("editor.action.format");
+			}
+
 			// Send the pasted value to the system clipboard.
 			vscode.commands.executeCommand("editor.action.clipboardCopyAction")
 				.then(() => {
@@ -107,6 +114,25 @@ export function activate(context: vscode.ExtensionContext) {
 
 		doPaste(copyBuffer[ pasteIndex ]);
 	}));
+
+	disposables.push( vscode.commands.registerCommand('multiclip.regularPaste', () => {
+		var start = vscode.window.activeTextEditor.selection.anchor;
+		vscode.commands.executeCommand("editor.action.clipboardPasteAction")
+			.then(() => {
+				if (formatAfterPaste) {
+					var end = vscode.window.activeTextEditor.selection.anchor;
+					var selection = new vscode.Selection(start.line, start.character, end.line, end.character);
+					vscode.window.activeTextEditor.selection = selection;
+					vscode.commands.executeCommand("editor.action.format").then(function () {
+						setTimeout(function () {
+							let newPos = vscode.window.activeTextEditor.selection.active;
+							vscode.window.activeTextEditor.selection = new vscode.Selection(newPos, newPos);
+						}, 100);
+					});
+				}
+			});
+	}));
+
 	disposables.push( vscode.commands.registerCommand('multiclip.list', () => {
 		if (copyBuffer.length == 0) {
 			Window.setStatusBarMessage("Multiclip: Nothing to paste", 3000);
