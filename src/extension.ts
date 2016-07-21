@@ -11,6 +11,7 @@ export function activate(context: vscode.ExtensionContext) {
 	let bufSize = config.get('bufferSize', 10);
 	var copyBuffer = new Array;
 	var pasteIndex = 0;
+	var lastRange;
 
 	function newCopyBuf(e:vscode.TextEditor,merge:boolean=false) : string {
 		let d:vscode.TextDocument = e.document;
@@ -67,6 +68,7 @@ export function activate(context: vscode.ExtensionContext) {
 		newCopyBuf(Window.activeTextEditor);
 		vscode.commands.executeCommand("editor.action.clipboardCutAction");
 	}));
+
 	function doPaste(txt: string) {
 		const e = Window.activeTextEditor;
 		const d = e.document;
@@ -75,29 +77,40 @@ export function activate(context: vscode.ExtensionContext) {
 				edit.replace(sel, txt);
 			});
 		}).then(() => {
-			// Grab a copy of the current selection array
-			const tmpSelections = e.selections;
+			setTimeout(() => {
+				// Grab a copy of the current selection array
+				const tmpSelections = e.selections;
 
-			// Grab the current primary selection
-			const sel = tmpSelections[ 0 ];
+				// Grab the current primary selection
+				const sel = tmpSelections[0];
 
-			// Change the current selection array to contain a single item
-			// that encompasses the entire pasted block.
-			e.selections = [ sel ];
+				// Change the current selection array to contain a single item
+				// that encompasses the entire pasted block.
+				e.selections = [sel];
 
-			// Format the selection, if enabled
-			if (formatAfterPaste) {
-				vscode.commands.executeCommand("editor.action.format");
-			}
+				// Send the pasted value to the system clipboard.
+				vscode.commands.executeCommand("editor.action.clipboardCopyAction").then(() => {
+					setTimeout(() => {
+						// Restore the previous selection(s)
+						e.selections = tmpSelections;
 
-			// Send the pasted value to the system clipboard.
-			vscode.commands.executeCommand("editor.action.clipboardCopyAction")
-				.then(() => {
-					// Restore the previous selection(s)
-					e.selections = tmpSelections;
+						// Format the selection, if enabled
+						if (formatAfterPaste) {
+							vscode.commands.executeCommand("editor.action.format").then(() => {
+								setTimeout(function () {
+									lastRange = new Range(e.selection.start, e.selection.end);
+								}, 100);
+							});
+						}
+						else {
+							lastRange = new Range(e.selection.start, e.selection.end);
+						}
+					}, 100);
 				});
+			}, 100);
 		});
 	}
+
 	disposables.push( vscode.commands.registerCommand('multiclip.paste', () => {
 		if (copyBuffer.length == 0) {
 			Window.setStatusBarMessage("Multiclip: Nothing to paste", 3000);
@@ -107,8 +120,8 @@ export function activate(context: vscode.ExtensionContext) {
 		let e = Window.activeTextEditor;
 		let d = e.document;
 
-		let txt: string = d.getText(new Range(e.selection.start, e.selection.end));
-		if (txt === copyBuffer[pasteIndex]) {
+		let newRange = new Range(e.selection.start, e.selection.end);
+		if (lastRange && newRange.isEqual(lastRange)) {
 			pasteIndex = ++pasteIndex < copyBuffer.length ? pasteIndex : 0;
 		}
 
