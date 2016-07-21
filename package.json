@@ -62,6 +62,10 @@
 				"title": "Multiclip Cut"
 			},
 			{
+				"command": "multiclip.list",
+				"title": "Multiclip List Buffer"
+			},
+			{
 				"command": "multiclip.paste",
 				"title": "Multiclip Paste"
 			},
