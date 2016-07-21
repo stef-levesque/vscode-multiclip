@@ -57,6 +57,12 @@ Visual Studio Code v0.10.x (November 2015)
 
 ## Change log
 
+### [0.1.1] - 2016-07-20
+
+#### New
+
+* Add option to format after pasting
+
 ### [0.1.0] - 2016-05-25
 
 #### New
@@ -89,7 +95,8 @@ Visual Studio Code v0.10.x (November 2015)
 #### New
 
 * Override the regular Copy and Cut commands to keep selections in a clipboard ring
-
+[0.1.1]: https://github.com/stef-levesque/vscode-multiclip/compare/eef9e2a93283ae561f519bbb5f16dcba0dfc9672...0a6191a00588ec0b01b2a4295cd1c136539d57a4
+[0.1.0]: https://github.com/stef-levesque/vscode-multiclip/compare/7223602c0cb94cf1c53254604907fadd72ddcab6...1933530d5e2a3ac1c34ecb4d7243b76a42446e25
 [0.0.4]: https://github.com/stef-levesque/vscode-multiclip/compare/d499c99c9d66d22db6d6c43a94a9f4bd5966c756...87e65d1e542a398045ae7e005940b47bd6179647
 [0.0.3]: https://github.com/stef-levesque/vscode-multiclip/compare/9d87335cf1c079a86bd21c53f33c9573afe6fb4a...7f174cbf6cf9540e846059f576fc4daad1a87136
 [0.0.2]: https://github.com/stef-levesque/vscode-multiclip/compare/f5499ab2e7d1175f2ded691fe98fe3fc4e34704e...9d87335cf1c079a86bd21c53f33c9573afe6fb4a
