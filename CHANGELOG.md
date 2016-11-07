@@ -1,6 +1,12 @@
 
 # Changelog
 
+## [0.1.2] - 2016-11-06
+
+### Changes
+
+* Use *formatSelection* 
+
 ## [0.1.1] - 2016-07-20
 
 ### New
@@ -40,6 +46,7 @@
 
 * Override the regular Copy and Cut commands to keep selections in a clipboard ring
 
+[0.1.2]: https://github.com/stef-levesque/vscode-multiclip/compare/5b7b754d02e613064e92a4e24aa9d0f8b8cb6b9f...06e1d52cba47c260a9d34b59d256192ade3fa817
 [0.1.1]: https://github.com/stef-levesque/vscode-multiclip/compare/eef9e2a93283ae561f519bbb5f16dcba0dfc9672...0a6191a00588ec0b01b2a4295cd1c136539d57a4
 [0.1.0]: https://github.com/stef-levesque/vscode-multiclip/compare/7223602c0cb94cf1c53254604907fadd72ddcab6...1933530d5e2a3ac1c34ecb4d7243b76a42446e25
 [0.0.4]: https://github.com/stef-levesque/vscode-multiclip/compare/d499c99c9d66d22db6d6c43a94a9f4bd5966c756...87e65d1e542a398045ae7e005940b47bd6179647

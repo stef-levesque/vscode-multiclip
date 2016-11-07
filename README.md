@@ -25,7 +25,7 @@ ability to copy several blocks of text into a single copy buffer.
 
 ## Installation
 
-1. Install *Visual Studio Code* (0.10.1 or higher)
+1. Install *Visual Studio Code* (1.7.0 or higher)
 2. Launch *Code*
 3. From the command palette `Ctrl-Shift-P` (Windows, Linux) or `Cmd-Shift-P` (OSX)
 4. Select `Install Extension`
@@ -42,7 +42,7 @@ ability to copy several blocks of text into a single copy buffer.
 
 ## Requirements
 
-Visual Studio Code v0.10.x (November 2015)
+Visual Studio Code 1.7
 
 ## Credits
 
