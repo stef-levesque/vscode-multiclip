@@ -96,7 +96,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 						// Format the selection, if enabled
 						if (formatAfterPaste) {
-							vscode.commands.executeCommand("editor.action.format").then(() => {
+							vscode.commands.executeCommand("editor.action.formatSelection").then(() => {
 								setTimeout(function () {
 									lastRange = new Range(e.selection.start, e.selection.end);
 								}, 100);
@@ -136,7 +136,7 @@ export function activate(context: vscode.ExtensionContext) {
 					var end = vscode.window.activeTextEditor.selection.anchor;
 					var selection = new vscode.Selection(start.line, start.character, end.line, end.character);
 					vscode.window.activeTextEditor.selection = selection;
-					vscode.commands.executeCommand("editor.action.format").then(function () {
+					vscode.commands.executeCommand("editor.action.formatSelection").then(function () {
 						setTimeout(function () {
 							let newPos = vscode.window.activeTextEditor.selection.active;
 							vscode.window.activeTextEditor.selection = new vscode.Selection(newPos, newPos);
