@@ -47,7 +47,7 @@
 				},
 				"multiclip.formatAfterPaste": {
 					"type": "boolean",
-					"default": true,
+					"default": false,
 					"description": "Specify if text should be formatted after pasting"
 				}
 			}
