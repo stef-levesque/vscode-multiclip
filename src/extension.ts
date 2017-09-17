@@ -6,8 +6,8 @@ import Range = vscode.Range;
 
 export function activate(context: vscode.ExtensionContext) {
 
-	let config = vscode.workspace.getConfiguration('multiclip')
-	let formatAfterPaste = config.get('formatAfterPaste', true);
+	let config = vscode.workspace.getConfiguration('multiclip');
+	let formatAfterPaste = config.get('formatAfterPaste', false);
 	let bufSize = config.get('bufferSize', 10);
 	var copyBuffer = new Array;
 	var pasteIndex = 0;
