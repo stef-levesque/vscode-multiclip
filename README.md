@@ -22,6 +22,7 @@ ability to copy several blocks of text into a single copy buffer.
 ## Configuration
 
 * `multiclip.bufferSize` Maximum number of item to keep in the multiclip buffer
+* `multiclip.formatAfterPaste` Specify if text should be formatted after pasting (disabled by default)
 
 ## Installation
 
