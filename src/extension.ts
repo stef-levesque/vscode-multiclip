@@ -53,25 +53,41 @@ export function activate(context: vscode.ExtensionContext) {
 		pasteIndex = 0;
 	}));
 	disposables.push( vscode.commands.registerCommand('multiclip.copyMerge', () => {
-		newCopyBuf(Window.activeTextEditor,true);
+		let editor = Window.activeTextEditor;
+		if (editor) {
+			newCopyBuf(Window.activeTextEditor,true);
+		}
 		vscode.commands.executeCommand("editor.action.clipboardCopyAction");
 	}));
 	disposables.push( vscode.commands.registerCommand('multiclip.copy', () => {
-		newCopyBuf(Window.activeTextEditor);
+		let editor = Window.activeTextEditor;
+		if (editor) {
+			newCopyBuf(Window.activeTextEditor);
+		}
 		vscode.commands.executeCommand("editor.action.clipboardCopyAction");
 	}));
 	disposables.push( vscode.commands.registerCommand('multiclip.cutMerge', () => {
-		newCopyBuf(Window.activeTextEditor,true);
+		let editor = Window.activeTextEditor;
+		if (editor) {
+			newCopyBuf(Window.activeTextEditor,true);
+		}
 		vscode.commands.executeCommand("editor.action.clipboardCutAction");
 	}));
 	disposables.push( vscode.commands.registerCommand('multiclip.cut', () => {
-		newCopyBuf(Window.activeTextEditor);
+		let editor = Window.activeTextEditor;
+		if (editor) {
+			newCopyBuf(Window.activeTextEditor);
+		}
 		vscode.commands.executeCommand("editor.action.clipboardCutAction");
 	}));
 
 	function doPaste(txt: string) {
 		const e = Window.activeTextEditor;
-		const d = e.document;
+		const d = e ? e.document : null;
+		if (!e || !d) {
+			return;
+		}
+
 		e.edit(function (edit: vscode.TextEditorEdit) {
 			e.selections.forEach(sel => {
 				edit.replace(sel, txt);
@@ -118,7 +134,9 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 
 		let e = Window.activeTextEditor;
-		let d = e.document;
+		if (!e) {
+			return;
+		}
 
 		let newRange = new Range(e.selection.start, e.selection.end);
 		if (lastRange && newRange.isEqual(lastRange)) {
@@ -129,17 +147,18 @@ export function activate(context: vscode.ExtensionContext) {
 	}));
 
 	disposables.push( vscode.commands.registerCommand('multiclip.regularPaste', () => {
-		var start = vscode.window.activeTextEditor.selection.anchor;
 		vscode.commands.executeCommand("editor.action.clipboardPasteAction")
 			.then(() => {
-				if (formatAfterPaste) {
-					var end = vscode.window.activeTextEditor.selection.anchor;
+				let e = Window.activeTextEditor;
+				if (formatAfterPaste && e) {
+					var start = e.selection.anchor;
+					var end = e.selection.anchor;
 					var selection = new vscode.Selection(start.line, start.character, end.line, end.character);
-					vscode.window.activeTextEditor.selection = selection;
+					Window.activeTextEditor.selection = selection;
 					vscode.commands.executeCommand("editor.action.formatSelection").then(function () {
 						setTimeout(function () {
-							let newPos = vscode.window.activeTextEditor.selection.active;
-							vscode.window.activeTextEditor.selection = new vscode.Selection(newPos, newPos);
+							let newPos = Window.activeTextEditor.selection.active;
+							Window.activeTextEditor.selection = new vscode.Selection(newPos, newPos);
 						}, 100);
 					});
 				}
