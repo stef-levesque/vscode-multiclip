@@ -100,10 +100,6 @@
 				"when": "editorTextFocus"
 			},
 			{
-				"command": "multiclip.list",
-				"when": "editorTextFocus"
-			},
-			{
 				"key": "shift+ctrl+v",
 				"mac": "shift+cmd+v",
 				"command": "multiclip.paste",
