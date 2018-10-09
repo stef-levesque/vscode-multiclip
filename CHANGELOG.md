@@ -1,6 +1,10 @@
 
 # Changelog
 
+## [0.1.5] - 2018-10-09
+
+* Bug fixes
+
 ## [0.1.3] - 2017-09-17
 
 ### Change
@@ -52,6 +56,7 @@
 
 * Override the regular Copy and Cut commands to keep selections in a clipboard ring
 
+[0.1.5]: https://github.com/stef-levesque/vscode-multiclip/compare/177f6d6b14b193c3c5a1f02e463f6dc7f5238bca...a6beeac9e39e15cf254cf39432362bc63ca36119
 [0.1.3]: https://github.com/stef-levesque/vscode-multiclip/compare/8505e9c4bdd98a0e42c7cd2583b7f44b3405c2c2...b62e92d58ab7801c9338f501133b432a37038484
 [0.1.2]: https://github.com/stef-levesque/vscode-multiclip/compare/5b7b754d02e613064e92a4e24aa9d0f8b8cb6b9f...06e1d52cba47c260a9d34b59d256192ade3fa817
 [0.1.1]: https://github.com/stef-levesque/vscode-multiclip/compare/eef9e2a93283ae561f519bbb5f16dcba0dfc9672...0a6191a00588ec0b01b2a4295cd1c136539d57a4
