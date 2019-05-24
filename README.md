@@ -33,6 +33,13 @@ ability to copy several blocks of text into a single copy buffer.
 5. Choose the extension `Multiple clipboards for VSCode`
 6. Reload *Visual Studio Code*
 
+### **OR**
+
+1. Launch VS Code Quick Open (Ctrl+P)
+2. Paste the following command, and press enter.
+
+```ext install slevesque.vscode-multiclip```
+
 ## Contributing
 
 1. Fork it!
